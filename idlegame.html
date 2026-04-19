@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="idlegame.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <header>
+    <div id="title-display">
+      <h1 id="titleh">⚡ENERGY IDLE</h1>
+      <p id="titlep">consume. upgrade. ascend.</p>
+   </div>
+  </header>
+ 
+  <div id="stats">
+  <div class="stat">
+    <span id="energy-count-display">Energy</span>
+    <span id="energy-count">0</span>
+  </div>
+  <div class="stat-row">
+    <div class="stat">
+      <span class="click-label">Click Value:</span>
+      <span id="click-value-count">0</span>
+    </div>
+    <div class="stat">
+      <span class="idle-label">IV Drip Value:</span>
+      <span id="idle-value-count">0</span>
+    </div>
+  </div>
+</div>
+  <div id="middle-section">
+      <div id="upgrades-panel">
+        <button id="upgrades-title">UPGRADES</button>
+        <div id="upgrades-list"></div>
+      </div>
+  </div>
+  <div id="prestige-display">
+    <button id="rebrand-button">NEXT DRINK</button>
+    <div id="prestige-text">
+      <div>New drinks unlocked: <span id="prestige-level-display">0</span></div>
+      <div>Next drink cost: <span id="prestige-cost-display">1000000</span></div>
+      <div>Energy left until next drink: <span id="energy-away-display">0</span></div>
+    </div>
+    <!-- <button id="reset-button">Reset</button> -->
+   </div>
+   <div id="current-drink-display">
+    <div id="current-drink">Currently drinking: <span id="drink-name"></span></div>
+    <div id="price-display">
+            <span id="click-upgrade-price">Chug upgrade price: </span>
+            <span id="click-price-display">25</span>
+            <span id="idle-upgrade-price">IV Drip upgrade price: </span>
+            <span id="idle-price-display">100</span>
+        </div>
+        <div id="prestige-multiplier-display">Current rehab multiplier: <span id="prestige-multiplier">0</span></div>
+   </div>
+  <script src="idlegame.js">
+  </script>
+<!-- maybe make a level thats super easy but then they have to grind the currency later? -->
+ </div>
+</body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+</html>
