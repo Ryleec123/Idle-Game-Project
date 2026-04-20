@@ -15,8 +15,8 @@ var resetButton = document.getElementById('reset-button')
 var prestigeDisplay = document.getElementById('prestige-display')
 var pricesDisplay = document.getElementById('current-drink-display')
 var upgradesPanel = document.getElementById('upgrades-panel')
-const clickUpgradeBtn = document.getElementById('upgrade0')
-const idleUpgradeBtn = document.getElementById('upgrade1')
+var clickUpgradeBtn = document.getElementById('upgrade0')
+var idleUpgradeBtn = document.getElementById('upgrade1')
 var currentlyDrinking = document.getElementById('drink-name')
 var currentlyDrinkingDisplay = document.getElementById('prestige-multiplier-display')
 
@@ -63,18 +63,20 @@ var prestigeDrinks = ["Knockoff Generic 🤢",
                       "C4 Energy 🧨"
 ]
 function saveGame(){
-    localStorage.setItem('energy', energy)
-    localStorage.setItem('idleValue', idleValue)
-    localStorage.setItem('clickValue', clickValue)
-    localStorage.setItem('clickUpgradePrice', clickUpgradePrice)
-    localStorage.setItem('idleUpgradePrice', idleUpgradePrice)
-    localStorage.setItem('prestigeMultiplier', prestigeMultiplier)
-    localStorage.setItem('prestigeCost', prestigeCost)
-    localStorage.setItem('prestigeLevel', prestigeLevel)
-    localStorage.setItem('clickUpgradeLevel', clickUpgradeLevel)
-    localStorage.setItem('idleUpgradeLevel', idleUpgradeLevel)
-    localStorage.setItem('upgradeLevels0', upgradeLevels[0])
-    localStorage.setItem('upgradeLevels1', upgradeLevels[1])
+    var localStorageArray = [
+        localStorage.setItem('energy', energy),
+        localStorage.setItem('idleValue', idleValue),
+        localStorage.setItem('clickValue', clickValue),
+        localStorage.setItem('clickUpgradePrice', clickUpgradePrice),
+        localStorage.setItem('idleUpgradePrice', idleUpgradePrice),
+        localStorage.setItem('prestigeMultiplier', prestigeMultiplier),
+        localStorage.setItem('prestigeCost', prestigeCost),
+        localStorage.setItem('prestigeLevel', prestigeLevel),
+        localStorage.setItem('clickUpgradeLevel', clickUpgradeLevel),
+        localStorage.setItem('idleUpgradeLevel', idleUpgradeLevel),
+        localStorage.setItem('upgradeLevels0', upgradeLevels[0]),
+        localStorage.setItem('upgradeLevels1', upgradeLevels[1]),
+    ]
 };
 function loadGame() {
     if (localStorage.getItem('energy') === null) return;
@@ -125,13 +127,18 @@ function updateUI() {
     }
     currentlyDrinking.textContent = prestigeDrinks[prestigeLevel]
     currentlyDrinkingDisplay.textContent = prestigeDrinks[prestigeLevel] + " energy multipler: " + prestigeMultiplier.toLocaleString('en-US', { maximumFractionDigits: 2 })
+    if(prestigeLevel >= 7){
+        var rebrandButton = document.getElementById("rebrand-button")
+        rebrandButton.disabled = true;
+        rebrandButton.textContent = "All drinks found! Congratulations!!!"
+    }
 }
 setInterval(function(){
     energy += idleValue * prestigeMultiplier; 
     updateUI()
     saveGame()
 }, 500)
-const upgradesBtn = document.getElementById('upgrades-title')
+var upgradesBtn = document.getElementById('upgrades-title')
      upgradesBtn.addEventListener('click', function() {
         if (upgradesOpen) {
             upgradeMenu.innerHTML = "";
@@ -139,9 +146,7 @@ const upgradesBtn = document.getElementById('upgrades-title')
             return
         };
         upgradesOpen = true;
-        console.log(upgrades);
         for (let i = 0; i < upgrades.length; i++) {
-             console.log("creating button", i, upgrades[i]); //
             var upgrade = document.createElement('button')
             upgrade.textContent = upgrades[i];
             upgradeMenu.appendChild(upgrade);
@@ -217,7 +222,7 @@ document.addEventListener('click', function(e){
         e.stopPropagation();
     }
     if(target.id == "rebrand-button"){
-        if(energy > prestigeCost){
+        // if(energy > prestigeCost){
             var prestigeConfirmationDisplay = document.createElement('div')
             prestigeConfirmationDisplay.id = 'prestige-confirmation-display'
             document.body.appendChild(prestigeConfirmationDisplay)
@@ -225,15 +230,15 @@ document.addEventListener('click', function(e){
             prestigeWrapper.id = 'prestige-wrapper'
             prestigeConfirmationDisplay.appendChild(prestigeWrapper)
             var prestigeLineOne = document.createElement('div')
-            prestigeLineOne.textContent = "You recieve an offer to buy your company!"
+            prestigeLineOne.textContent = "You're getting sick of " + prestigeDrinks[prestigeLevel] + "."
             prestigeLineOne.id = "prestige-line-1";
             prestigeWrapper.appendChild(prestigeLineOne)
             var prestigeLineTwo = document.createElement ('div')
-            prestigeLineTwo.textContent = 'You will lose all current customers due to "going corpor", but will gain a permanent 1.5x stat boost'
+            prestigeLineTwo.textContent = 'You may keep drinking it, however any side effects are no longer the responsibility of the company.'
             prestigeLineTwo.id = "prestige-line-2";
             prestigeWrapper.appendChild(prestigeLineTwo)
             var prestigeLineThree = document.createElement('div')
-            prestigeLineThree.textContent = "Lose all progress for 1.5x value on all energy. Confirm?"
+            prestigeLineThree.textContent = "You may also find a new flavor, which will reset your progress and provide a 1.5x boost to all upgrades. Confirm?"
             prestigeLineThree.id = "prestige-line-3";
             prestigeWrapper.appendChild(prestigeLineThree)
             var confirmPrestige = document.createElement('button')
@@ -241,7 +246,7 @@ document.addEventListener('click', function(e){
             confirmPrestige.id = "confirm-prestige";
             prestigeWrapper.appendChild(confirmPrestige)
             var denyPrestige = document.createElement('button')
-            denyPrestige.textContent = "Continue to develop your addi- habit 🙂"
+            denyPrestige.textContent = "NO! I STILL LIKE " + prestigeDrinks[prestigeLevel] + "!!!"
             denyPrestige.id = "deny-prestige";
             prestigeWrapper.appendChild(denyPrestige)
             prestigeDisplay.classList.add('hide-all')
@@ -276,13 +281,14 @@ document.addEventListener('click', function(e){
                 upgradesPanel.classList.remove('hide-all')
                 updateUI();
             })
-        } 
+        //} 
         if(prestigeCost > energy){
             document.getElementById('rebrand-button').textContent = "Not enough energy! Take a nap or CLICK HARDER!!"
             setTimeout(() => {
                 document.getElementById('rebrand-button').textContent = "NEXT DRINK"
             }, 1500);
         }
+
     }
     if(target.id !== 'upgrade0' &&
         target.id !== 'upgrade1' &&
